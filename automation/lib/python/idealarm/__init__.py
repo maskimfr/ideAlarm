@@ -261,9 +261,6 @@ class IdeAlarmZone(object):
         '''
         Called whenever the entry timer times out.
         '''
-        # Double check that the zone status is tripped, we can probably remove this check later
-        if self.getZoneStatus() not in [ZONESTATUS['TRIPPED']]:
-            raise IdeAlarmError('Entry Timer timed out but zone status is not tripped')
         self.setZoneStatus(ZONESTATUS['ALERT'])
 
         # We need to make some noise here!
