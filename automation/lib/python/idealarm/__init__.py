@@ -244,7 +244,7 @@ class IdeAlarmZone(object):
         '''
         newArmingMode = None
         if item.name == self.armAwayToggleSwitch:
-            if self.getArmingMode() in [ARMINGMODE['DISARMED']]:
+            if self.getArmingMode() in [ARMINGMODE['DISARMED']] and self.getZoneStatus() not in [ZONESTATUS['ARMING']]:
                 newArmingMode = ARMINGMODE['ARMED_AWAY']
             else:
                 newArmingMode = ARMINGMODE['DISARMED']
