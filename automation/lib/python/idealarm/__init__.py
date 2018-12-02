@@ -336,9 +336,13 @@ class IdeAlarmZone(object):
             self.log.info(sensor.name.decode('utf-8')+' was tripped, but we are ignoring it')
             return
 
-        self.setZoneStatus(ZONESTATUS['TRIPPED'])
-        self.log.info(sensor.name.decode('utf-8')+' was tripped, starting entry timer')
-        postUpdateCheckFirst('Z'+str(self.zoneNumber)+'_Entry_Timer', ON)
+        if (not sensor.armWarn):
+            self.setZoneStatus(ZONESTATUS['TRIPPED'])
+            self.log.info(sensor.name.decode('utf-8')+' was tripped, starting entry timer')
+            postUpdateCheckFirst('Z'+str(self.zoneNumber)+'_Entry_Timer', ON)
+        else:
+            self.onEntryTimer()
+            self.log.info(sensor.name.decode('utf-8')+' was tripped, armWarn is set to True, go directly to the ALERT Mode')
 
 class IdeAlarm(object):
     '''
