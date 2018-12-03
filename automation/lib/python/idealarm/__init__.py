@@ -139,10 +139,10 @@ class IdeAlarmZone(object):
         # the zone status will be set to ERROR and onZoneStatusChange will be able to trap track it down.
         if newArmingMode in [ARMINGMODE['ARMED_AWAY'], ARMINGMODE['ARMED_HOME']] \
         and self.getZoneStatus() != ZONESTATUS['ARMING'] and self.getZoneStatus() is not None \
-        and self.openSections > 0:
+        and self.openSections > 0 and len(self.getOpenSensors(0,newArmingMode,True)) > 0:
             if 'onArmingWithOpenSensors' in dir(custom):
                 custom.onArmingWithOpenSensors(self, newArmingMode)
-            if not self.canArmWithTrippedSensors and len(self.getOpenSensors(0,newArmingMode,True)) > 0:
+            if not self.canArmWithTrippedSensors:
                 self.setZoneStatus(ZONESTATUS['ERROR'], errorMessage='Arming is not allowed with open sensors')
                 self.log.error('Zone \''+self.name.decode('utf-8')+'\' can not be set to new arming mode: '+kw(ARMINGMODE, newArmingMode)+' due to that there are open sensors!')
                 import time
